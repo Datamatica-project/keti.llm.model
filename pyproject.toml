@@ -1,0 +1,25 @@
+[project]
+name = "model"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "accelerate>=1.9.0",
+    "boto3>=1.39.8",
+    "datasets>=4.0.0",
+    "faiss-cpu>=1.11.0.post1",
+    "fastapi[all]>=0.116.1",
+    "langchain>=0.3.26",
+    "langchain-community>=0.3.27",
+    "langchain-openai>=0.3.28",
+    "meilisearch>=0.36.0",
+    "openai>=1.95.1",
+    "pandas>=2.3.1",
+    "pytest>=8.4.1",
+    "redis>=6.2.0",
+    "scikit-learn>=1.7.0",
+    "sentence-transformers>=5.0.0",
+    "transformers>=4.53.2",
+    "xformers>=0.0.31.post1",
+]
