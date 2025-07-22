@@ -5,7 +5,11 @@ export AWS_ACCESS_KEY_ID=minio
 export AWS_SECRET_ACCESS_KEY=miniostorage
 
 # 사용할 모델 이름
+<<<<<<< HEAD
 MODEL_NAME="LGAI-EXAONE/EXAONE-3.5-7.8B-Instruct"
+=======
+MODEL_NAME="Qwen/Qwen2.5-7B-Instruct"
+>>>>>>> 0c89ddde410f1f3f2d72ee223ac04c56dff24b2e
 
 # vLLM 실행
 python3 -m vllm.entrypoints.openai.api_server \
@@ -13,7 +17,15 @@ python3 -m vllm.entrypoints.openai.api_server \
   --dtype bfloat16 \
   --host 0.0.0.0 \
   --port 8000 \
+<<<<<<< HEAD
   --max-model-len 4096 \
   --max-num-seqs 32 \
   --enable-force-include-usage \
   --disable-log-stats
+=======
+  --chat-template chatml \
+  --max-model-len 4096 \
+  --max-num-seqs 32 \
+  --enable-usage-stats \
+  --disable-log-stats
+>>>>>>> 0c89ddde410f1f3f2d72ee223ac04c56dff24b2e
