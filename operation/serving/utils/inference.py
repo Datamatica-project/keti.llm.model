@@ -128,7 +128,7 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
         else:
             previous_messages.clear()
         all_messages = previous_messages + current_messages
-        print(f"🗑 대화 쌍 삭제, 현재 토큰: {count_tokens(all_messages)}")
+        print(f"대화 쌍 삭제, 현재 토큰: {count_tokens(all_messages)}")
 
     print(f"DEBUG: 최종 토큰 수: {count_tokens(all_messages)}")
 
