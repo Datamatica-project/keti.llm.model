@@ -10,10 +10,6 @@ def load_reranker(model_name: str = "dragonkue/bge-reranker-v2-m3-ko"):
         model=model,
         tokenizer=tokenizer,
         return_all_scores=False,  # 점수 하나만 반환
-<<<<<<< HEAD
-=======
-        max_length=8192,
->>>>>>> 0c89ddde410f1f3f2d72ee223ac04c56dff24b2e
         device=0
     )
 
