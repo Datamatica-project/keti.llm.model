@@ -9,7 +9,6 @@ from transformers import AutoTokenizer
 
 from typing import Dict, Any, List
 
-
 reranker = load_reranker()
 
 tokenizer = AutoTokenizer.from_pretrained("unsloth/gemma-3-4b-it", trust_remote_code=True)
@@ -29,9 +28,9 @@ def route_query(query: str) -> RoutingResult:
     llm = ChatOpenAI(
         model_name="unsloth/gemma-3-4b-it",
         openai_api_base="http://localhost:8000/v1",
-        max_tokens=50,
+        max_tokens=30,
         temperature=0,
-        openai_api_key="sk-fake-key"
+        openai_api_key="sk-fake-key",
     )
 
     prompt = f"""이 질문이 농업 전문 지식/문서 검색이 필요한지 판단하세요.
@@ -106,8 +105,12 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
         model_name="unsloth/gemma-3-4b-it",
         openai_api_base="http://localhost:8000/v1",
         max_tokens=1024,
-        temperature=0.1,
-        openai_api_key="sk-fake-key"
+        temperature=0.7,
+        openai_api_key="sk-fake-key",
+        model_kwargs={
+            "stop": ["<end_of_turn>"],
+            "frequency_penalty": 0.2
+        }
     )
 
     previous_messages = memory.load_memory_variables({}).get("chat_history", [])
@@ -133,16 +136,23 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
     print(f"DEBUG: 최종 토큰 수: {count_tokens(all_messages)}")
 
     response = llm.invoke(all_messages)
-
+    
+    # 응답 정리
+    cleaned_answer = response.content.split("<end_of_turn>")[0].strip()
+    if not cleaned_answer.endswith('.'):
+        sentences = cleaned_answer.split('.')
+        if len(sentences) > 1 and len(sentences[-1].strip()) < 10:
+            cleaned_answer = '.'.join(sentences[:-1]) + '.'
+    
     memory.save_context(
         {"input": query},
-        {"output": response.content}
+        {"output": cleaned_answer}
     )
 
     token_usage = response.response_metadata.get("token_usage", {})
 
     return {
-        "answer": response.content,
+        "answer": cleaned_answer,
         "input_tokens": input_query,
         "completion_tokens": token_usage.get("completion_tokens", 0),
         "references": references[0]["document"] if references else "",
