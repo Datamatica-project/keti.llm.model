@@ -1,7 +1,6 @@
 import glob
 import json
 import pandas as pd
-from datasets import Dataset
 
 def load_datasets(json_dir: str, pattern: str = "*.json"):
     data = []

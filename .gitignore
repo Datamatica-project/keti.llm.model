@@ -10,6 +10,11 @@ __pycache__/
 data/intruction/*.json
 data/raw/*
 
+data/주간농사정보
+data/최신영농활용기술
+data/raw
+
+
 models/notebook/.Trash-0
 models/notebook/.ipynb_checkpoints
 models/notebook/hf_dataset/
