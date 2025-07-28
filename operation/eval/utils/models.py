@@ -1,0 +1,22 @@
+from sentence_transformers import SentenceTransformer
+from transformers import AutoModelForCausalLM, AutoTokenizer
+
+# 평가용 유사도 모델
+similarity_model = SentenceTransformer("dragonkue/bge-reranker-v2-m3-ko")
+
+models = {
+    "baseline": {
+        "path": "unsloth/gemma-3-4b-it",
+        "tokenizer": None,
+        "model": None,
+    },
+    "tuned": {
+        "path": "C:/Users/dm_ohminchan/Model/models/gemma3",
+        "tokenizer": None,
+        "model": None,
+    }
+}
+
+for name, config in models.items():
+    config["tokenizer"] = AutoTokenizer.from_pretrained(config["path"], trust_remote_code=True)
+    config["model"] = AutoModelForCausalLM.from_pretrained(config["path"], trust_remote_code=True).eval()

@@ -93,7 +93,7 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
         """
     else:
         context = "\n".join([ref["text"] for ref in references])
-        prompt = f"""아래 문서를 참고해서 사용자의 질문에 대해 자세히 설명하세요.:
+        prompt = f"""아래 문서를 참고해서 사용자의 질문에 대해 자세히 설명하세요. "안녕하세요", "농업전문가로서" 같은 인사말은 생략하세요.:
         [문서 요약]
         {context}
         
@@ -107,8 +107,9 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
         max_tokens=1024,
         temperature=0.7,
         openai_api_key="sk-fake-key",
-        model_kwargs={
+        extra_body={
             "stop": ["<end_of_turn>"],
+            "stop_token_ids": [106],
             "frequency_penalty": 0.2
         }
     )

@@ -5,7 +5,7 @@ from router.inference_router import router
 app = FastAPI(
     title="농업 지식 상담 API",
     version="1.0.0",
-    description="Vector Search + Reranker + Qwen 기반 농업 상담 서비스",
+    description="Vector Search + Reranker + LLM 기반 농업 상담 서비스",
 )
 
 # CORS 설정

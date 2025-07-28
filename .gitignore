@@ -13,6 +13,7 @@ data/raw/*
 data/주간농사정보
 data/최신영농활용기술
 data/raw
+models/gemma3
 
 
 models/notebook/.Trash-0

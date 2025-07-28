@@ -15,6 +15,7 @@ dependencies = [
     "langchain-openai>=0.3.28",
     "lxml>=6.0.0",
     "meilisearch>=0.36.0",
+    "mlflow>=3.1.4",
     "openai>=1.95.1",
     "pandas>=2.3.1",
     "pytest>=8.4.1",
