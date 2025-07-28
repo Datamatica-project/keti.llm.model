@@ -1,5 +1,6 @@
 from sentence_transformers import SentenceTransformer
 from transformers import AutoModelForCausalLM, AutoTokenizer
+import torch
 
 # 평가용 유사도 모델
 similarity_model = SentenceTransformer("dragonkue/bge-reranker-v2-m3-ko")
@@ -17,6 +18,13 @@ models = {
     }
 }
 
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
 for name, config in models.items():
     config["tokenizer"] = AutoTokenizer.from_pretrained(config["path"], trust_remote_code=True)
-    config["model"] = AutoModelForCausalLM.from_pretrained(config["path"], trust_remote_code=True).eval()
+    config["model"] = AutoModelForCausalLM.from_pretrained(
+        config["path"], 
+        trust_remote_code=True,
+        device_map="auto",
+        torch_dtype=torch.bfloat16
+    ).eval()
