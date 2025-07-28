@@ -18,7 +18,7 @@ python3 -m vllm.entrypoints.openai.api_server \
   --dtype bfloat16 \
   --host 0.0.0.0 \
   --port 8000 \
-  --max-model-len 2048 \
+  --max-model-len 4096 \
   --max-num-seqs 16 \
   --enable-force-include-usage \
   --disable-log-stats \
