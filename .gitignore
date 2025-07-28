@@ -14,6 +14,7 @@ data/주간농사정보
 data/최신영농활용기술
 data/raw
 models/gemma3
+training.log
 
 
 models/notebook/.Trash-0
