@@ -79,7 +79,7 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
                 "text": doc.get("text"),
                 "score": score
             }
-            for doc, score in reranked if score > 0.5
+            for doc, score in reranked
         ]
     else:
         print(f"일반 대화: {query}")

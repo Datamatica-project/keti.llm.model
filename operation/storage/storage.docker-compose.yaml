@@ -11,6 +11,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - llm
 
   artifact-store:
     image: minio/minio:RELEASE.2025-06-13T11-33-47Z-cpuv1
@@ -27,7 +29,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
-
+    networks:
+      - llm
 
   mlflow-server:
     build:
@@ -55,4 +58,9 @@ services:
         --backend-store-uri postgresql://mlflowuser:mlflowpassword@tracking-backend-store/mlflowdatabase \
         --default-artifact-root s3://mlflow/ \
         --host 0.0.0.0
+    networks:
+      - llm
 
+networks:
+  llm:
+    external: true

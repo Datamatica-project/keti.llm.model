@@ -1,6 +1,8 @@
 from sentence_transformers import SentenceTransformer
 from transformers import AutoModelForCausalLM, AutoTokenizer
+
 import torch
+torch._dynamo.config.disable = True
 
 # 평가용 유사도 모델
 similarity_model = SentenceTransformer("dragonkue/bge-reranker-v2-m3-ko")
@@ -26,5 +28,5 @@ for name, config in models.items():
         config["path"], 
         trust_remote_code=True,
         device_map="auto",
-        torch_dtype=torch.bfloat16
+        torch_dtype=torch.bfloat16,
     ).eval()
