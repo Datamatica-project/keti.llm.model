@@ -2,10 +2,18 @@ from transformers import Trainer
 import logging
 
 from config.configs import mlflow_config, model_path, training_config
+
 import mlflow
+
 from trainer.model_loader import load_model_and_tokenizer
 from trainer.arguments import create_training_args
 from trainer.dataset_loader import load_json_dataset, preprocess_dataset
+
+import os
+
+os.environ["MLFLOW_S3_ENDPOINT_URL"] = "http://localhost:9000"
+os.environ["AWS_ACCESS_KEY_ID"] = "minio"
+os.environ["AWS_SECRET_ACCESS_KEY"] = "miniostorage"
 
 # 로깅 설정
 logging.basicConfig(
@@ -20,7 +28,7 @@ logger = logging.getLogger(__name__)
 
 
 def main():
-    logger.info("=== 파인튜닝 훈련 시작 ===")
+    logger.info("파인튜닝 시작")
     
     mlflow.set_tracking_uri(mlflow_config["tracking_uri"])
     mlflow.set_experiment(mlflow_config["experiment_name"])
