@@ -2,10 +2,15 @@ from __future__ import annotations
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch, os, re
 from typing import List
+from dotenv import load_dotenv  # ✅ 추가
+
+# .env 로드 (프로젝트 루트에 .env 있으면 자동 로딩)
+load_dotenv()
 
 # 전처리: 개행/탭/잡문/캡션 정리
 CAPTION_LINE = re.compile(r'(?im)^\s*(표|그림|table|fig(?:ure)?)\s*\d+[^ \n]*.*$', re.M)
 PAGE_META_LINE = re.compile(r'(?m)^\s*(쪽|페이지|한국융합학회|저자정보|출처|참고문헌)\s*.*$')
+
 
 def clean_text_before_chunking(text: str) -> str:
     """
@@ -33,16 +38,24 @@ class GemmaAgenticChunker:
         supports_bf16 = has_cuda and torch.cuda.is_bf16_supported()
         dtype = torch.bfloat16 if supports_bf16 else (torch.float16 if has_cuda else torch.float32)
 
-        HF_TOKEN = "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"
+        # ✅ 하드코딩 토큰 제거 → 환경변수 사용
+        hf_token = os.getenv("HF_TOKEN")
+        if not hf_token:
+            raise RuntimeError(
+                "HF_TOKEN 환경변수가 설정되어 있지 않습니다. "
+                "프로젝트 루트 .env 또는 시스템 환경변수를 확인하세요."
+            )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, token=HF_TOKEN)
+        # 토크나이저 로드
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, token=hf_token)
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = "left"
 
+        # 모델 로드
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            token=HF_TOKEN,
+            token=hf_token,
             torch_dtype=dtype,
             device_map="auto",
         )
