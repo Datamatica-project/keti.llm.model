@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  main.api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: main.api
+    ports:
+      - "8008:8008"
+    environment:
+      - PYTHONPATH=/app
+      - TZ=Asia/Seoul
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - .:/app
+    networks:
+      - llm
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8008/docs"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    gpus: all  # 🔹 핵심 옵션: GPU 연결
+
+networks:
+  llm:
+    external: true

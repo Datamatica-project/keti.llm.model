@@ -1,0 +1,15 @@
+fastapi
+uvicorn[standard]
+pydantic
+transformers
+sentence-transformers
+scikit-learn
+faiss-cpu
+langchain==0.1.20
+langchain-openai
+redis
+numpy
+typing-extensions
+boto3
+requests
+httpx

@@ -1,0 +1,90 @@
+# ============================
+# 기본 환경파일 / 보안정보
+# ============================
+.env
+*.env
+.env.*
+*secret*
+*token*
+*apikey*
+
+# ============================
+# Python / PyTorch / ML
+# ============================
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.pt
+*.pth
+*.bin
+*.onnx
+*.tflite
+*.h5
+*.ckpt
+
+# Transformers cache (HuggingFace)
+~/.cache/huggingface/
+huggingface/
+cache/
+*.cache/
+
+# ============================
+# 대용량 파일
+# ============================
+*.pdf
+*.html
+*.docx
+*.xlsx
+*.zip
+*.tar
+*.tar.gz
+*.7z
+*.rar
+
+# ============================
+# 데이터셋 & 원본 데이터 (절대 업로드 금지)
+# ============================
+data/
+datasets/
+dataset/
+raw_data/
+raw/
+input/
+input_data/
+operation/Vector/chuking/org_data/
+operation/Vector/chuking/html_data/
+
+# ============================
+# 모델/학습 결과
+# ============================
+checkpoints/
+weights/
+outputs/
+runs/
+logs/
+wandb/
+mlruns/
+tensorboard/
+tb_logs/
+experiments/
+results/
+
+# ============================
+# Jupyter
+# ============================
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+
+# ============================
+# 파이참 / VSCode
+# ============================
+.idea/
+.vscode/
+
+# ============================
+# OS / 기타
+# ============================
+.DS_Store
+Thumbs.db

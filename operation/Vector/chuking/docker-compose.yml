@@ -1,0 +1,12 @@
+services:
+  vector-chunker:
+    build: .
+    image: chuking-vector-chunker
+    container_name: vector-chunker
+    volumes:
+      - ./org_data:/app/org_data     # 입력 PDF
+      - ./html_data:/app/html_data   # 중간 HTML
+      - ./data:/app/data             # 최종 JSON
+    environment:
+      - HUGGINGFACE_HUB_TOKEN=${HUGGINGFACE_HUB_TOKEN}
+      - HF_HUB_ENABLE_HF_TRANSFER=1
