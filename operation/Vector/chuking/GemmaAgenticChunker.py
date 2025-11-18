@@ -2,7 +2,7 @@ from __future__ import annotations
 from transformers import AutoTokenizer, AutoModelForCausalLM
 import torch, os, re
 from typing import List
-from dotenv import load_dotenv  # ✅ 추가
+from dotenv import load_dotenv
 
 # .env 로드 (프로젝트 루트에 .env 있으면 자동 로딩)
 load_dotenv()
@@ -38,7 +38,6 @@ class GemmaAgenticChunker:
         supports_bf16 = has_cuda and torch.cuda.is_bf16_supported()
         dtype = torch.bfloat16 if supports_bf16 else (torch.float16 if has_cuda else torch.float32)
 
-        # ✅ 하드코딩 토큰 제거 → 환경변수 사용
         hf_token = os.getenv("HF_TOKEN")
         if not hf_token:
             raise RuntimeError(
