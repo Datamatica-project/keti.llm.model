@@ -14,7 +14,7 @@ models = {
         "model": None,
     },
     "tuned": {
-        "path": "C:/Users/dm_ohminchan/Model/models/gemma3",
+        "path": "C:/Users/dm_ohminchan/RAGLLM-Feature-model-train/models/gemma3",
         "tokenizer": None,
         "model": None,
     }

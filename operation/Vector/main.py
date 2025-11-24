@@ -10,7 +10,7 @@ def main():
 
     embedder = Embedder()
     embedder.add_documents(chunks)           # 3. 임베딩
-    embedder.save("C:/Users/dm_ohminchan/Model/operation/Vector/index/")                 # 4. 로컬 저장
+    embedder.save("C:/Users/dm_ohminchan/RAGLLM-Feature-model-train/operation/Vector/index/")                 # 4. 로컬 저장
 
     embedder.upload_to_minio(                # 5. MinIO 업로드
         bucket="vectors",

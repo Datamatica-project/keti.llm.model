@@ -39,7 +39,7 @@ def main():
     logger.info(f"모델 로드 완료: {model_path['path']}")
 
     logger.info("데이터셋 로드 시작...")
-    dataset = load_json_dataset(json_path="C:/Users/dm_ohminchan/Model/data/instrcution/generation_QA_set_20250722.json")
+    dataset = load_json_dataset(json_path="C:/Users/dm_ohminchan/RAGLLM-Feature-model-train/data/instrcution/qa_with_perspectives_cleaned.json")
     logger.info(f"데이터셋 로드 완료: {len(dataset)}개 샘플")
     
     logger.info("데이터 전처리 시작...")

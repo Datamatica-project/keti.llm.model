@@ -4,7 +4,7 @@ pydantic
 transformers
 sentence-transformers
 scikit-learn
-faiss-cpu
+faiss-gpu
 langchain==0.1.20
 langchain-openai
 redis

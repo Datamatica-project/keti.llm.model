@@ -2,7 +2,7 @@ from utils.merge import convert_to_dataset, load_datasets
 from utils.storage import StorageManager
 
 def main():
-    file_path = "C:/Users/dm_ohminchan/Model/data/instrcution"
+    file_path = "C:/Users/dm_ohminchan/RAGLLM-Feature-model-train/data/instrcution"
     data = load_datasets(file_path)
     dataset = convert_to_dataset(data)
 

@@ -24,7 +24,7 @@ services:
       timeout: 10s
       retries: 3
       start_period: 40s
-    gpus: all  # 🔹 핵심 옵션: GPU 연결
+    gpus: all
 
 networks:
   llm:

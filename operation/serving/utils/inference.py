@@ -13,7 +13,7 @@ from typing import Dict, Any, List
 import os
 import re
 import numpy as np
-from dotenv import load_dotenv  # ✅ 추가
+from dotenv import load_dotenv
 
 # .env 로드 (프로젝트 루트에 있는 .env를 읽음)
 load_dotenv()
@@ -21,8 +21,6 @@ load_dotenv()
 # LangSmith 설정: 민감한 값(API 키)은 .env / 환경변수에서만 관리
 os.environ.setdefault("LANGSMITH_TRACING", "true")
 os.environ.setdefault("LANGSMITH_ENDPOINT", os.getenv("LANGSMITH_ENDPOINT", "https://api.smith.langchain.com"))
-# ⚠️ LANGSMITH_API_KEY는 절대 코드에서 직접 설정하지 않음
-# .env에 LANGSMITH_API_KEY=... 형태로 넣어두면 LangChain이 자동으로 사용
 os.environ.setdefault("LANGSMITH_PROJECT", os.getenv("LANGSMITH_PROJECT", "Keti"))
 
 reranker = load_reranker()
@@ -104,7 +102,6 @@ def route_query(query: str) -> RoutingResult:
         openai_api_base="http://vllm.api:8000/v1",
         max_tokens=30,
         temperature=0,
-        # vLLM OpenAI 호환 엔드포인트용 더미 키 (실제 키 X)
         openai_api_key=os.environ.get("OPENAI_API_KEY", "sk-fake-key"),
     )
 

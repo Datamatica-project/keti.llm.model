@@ -35,7 +35,7 @@ def main():
 
         for i, (param, title) in enumerate(zip(params, titles), 1):
             safe_title = sanitize_filename(title)
-            save_path = f"C:/Users/dm_ohminchan/Model/data/raw/{safe_title}.pdf"
+            save_path = f"C:/Users/dm_ohminchan/RAGLLM-Feature-model-train/data/raw/{safe_title}.pdf"
 
             try:
                 download_pdf(

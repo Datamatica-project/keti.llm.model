@@ -60,7 +60,7 @@ class Embedder:
             endpoint_url: str,
             access_key: str,
             secret_key: str,
-            directory: str = "C:/Users/dm_ohminchan/Model/operation/Vector/index/"
+            directory: str = "C:/Users/dm_ohminchan/RAGLLM-Feature-model-train/operation/Vector/index/"
     ):
         s3 = boto3.client(
             "s3",

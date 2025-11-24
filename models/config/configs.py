@@ -15,7 +15,7 @@ training_config = {
     "per_device_train_batch_size": 2,
     "per_device_eval_batch_size": 2,
     "gradient_accumulation_steps": 4,
-    "num_train_epochs": 3,
+    "num_train_epochs": 1.5,
     "learning_rate": 2e-5,
     "lr_scheduler_type": "cosine",
     "warmup_steps": 100,
@@ -27,4 +27,5 @@ training_config = {
     "logging_dir": "./logs",
     "report_to": "mlflow",
     "run_name": mlflow_config["run_name"],
+    "save_safetensors": False,
 }
