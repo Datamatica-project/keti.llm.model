@@ -2,13 +2,11 @@ FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 WORKDIR /app
 
-# 기본 의존성 설치
 RUN apt update && \
     DEBIAN_FRONTEND=noninteractive apt install -y \
     python3 python3-pip \
     awscli
 
-# 최신 pip로 업그레이드
 RUN pip install --upgrade pip
 
 RUN apt update && DEBIAN_FRONTEND=noninteractive apt install -y python3 python3-pip ray

@@ -142,7 +142,7 @@ def main():
             mlflow.log_param("model_name", model_name)
             mlflow.log_param("evaluation_type", "hard_metrics_rag_aware")
             mlflow.log_param("test_samples", len(test_data))
-            use_rag = bool(models.get(model_name, {}).get("use_rag", False))
+            use_rag = bool(models.get(model_name, {}).get("use_rag", True))
             mlflow.log_param("use_rag", use_rag)
 
             semantic_scores = []

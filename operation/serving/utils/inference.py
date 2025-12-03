@@ -1,5 +1,5 @@
 from __future__ import annotations
-
+##수정 방향 : 도메인 사전 + 편집 거리로 (APSOM → APSIM 등) 자동 교정하는 함수 교체 search.py 불러오기 이전
 from .reranker import load_reranker, rerank_with_bge
 from .search import vector_search
 from dto.routings import RoutingResult, RouteType
@@ -98,7 +98,7 @@ def trim_history_to_budget(
 
 def route_query(query: str) -> RoutingResult:
     llm = ChatOpenAI(
-        model_name="unsloth/gemma-3-4b-it",
+        model_name="gemma-3-4b-it-finetuned",
         openai_api_base="http://vllm.api:8000/v1",
         max_tokens=30,
         temperature=0,
@@ -154,7 +154,7 @@ def route_query(query: str) -> RoutingResult:
 
 def generate_response(query: str, session_id: str) -> Dict[str, Any]:
     # 세션 메모리 준비
-    memory = save_session_memory(session_id, "redis://192.168.0.150:6379")
+    memory = save_session_memory(session_id, "redis://192.168.0.15:6379")
     if memory is None:
         return {"error": "메모리 초기화 실패"}
 
@@ -219,9 +219,8 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
 {query}
 
 지침:
-- 200자 이내.
+- 300자 이내.
 - 사실과 일반 상식 범위에서만.
-- 불확실하면 단정하지 말고 필요한 정보(작물/상황 등)만 요청.
 - 문장이 자연스럽게 끝나도록 작성.
 """
         return f"""아래 문서 내용을 참고하여 질문에 답하세요.
@@ -233,7 +232,7 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
 {query}
 
 지침:
-- 200자 이내.
+- 300자 이내.
 - 사실과 일반 상식 범위에서만.
 - 불확실하면 단정하지 말고 필요한 정보(작물/상황 등)만 요청.
 - 문장이 자연스럽게 끝나도록 작성.
@@ -248,8 +247,23 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
             per_ref_tokens=per_ref_tokens,
             total_tokens=total_ctx_tokens,
         )
+# 현재: 프롬프트로 일단 수정, 이후 방향 : 도메인 사전(전문용어들) + 편집 거리로 (APSOM → APSIM 등) 자동 교정하는 함수 교체 search.py 불러오기 이전에 진행
+        system_prompt = (
+            "당신은 농업 분야만 답변하는 전문 상담가입니다. "
+            "아래 규칙은 절대적으로 우선되며, 절대 위반하면 안 됩니다. "
 
-        system_prompt = "당신은 간결하고 정확한 농업 상담가입니다. 주어진 지침을 엄격히 따르세요."
+            "[오타 및 용어 교정 규칙 — 강제 적용] "
+            "1. 사용자의 입력이 실제 존재하는 농업 용어와 1~2글자만 다를 경우, 반드시 자동으로 올바른 용어로 교정한다. "
+            "2. 예: 교추→고추, 고쮸→고추, 노지 고쮜→노지 고추 "
+            "3. 교정 가능성이 50% 이상이면 무조건 교정한 뒤 답변한다. "
+            "4. 교정 여부를 언급하지 않고 자연스럽게 답변한다. "
+            "5. 교정하지 못하겠으면 반드시 1회만 확인 질문을 한다. "
+
+            "[정보 부족 처리 규칙] "
+            "6. 용어가 확정된 뒤, 답변에 필요한 정보가 부족하면 1~3개의 질문으로 추가 정보를 요구한다. "
+            "7. 위 규칙은 절대적으로 우선되며, 어떤 상황에서도 무시해서는 안 된다."
+        )
+
         prompt = build_prompt(context)
         current_messages = [HumanMessage(content=system_prompt + "\n\n" + prompt)]
         all_messages = previous_messages + current_messages
@@ -298,7 +312,7 @@ def generate_response(query: str, session_id: str) -> Dict[str, Any]:
 
     # LLM 호출
     llm = ChatOpenAI(
-        model_name="unsloth/gemma-3-4b-it",
+        model_name="gemma-3-4b-it-finetuned",
         openai_api_base="http://vllm.api:8000/v1",
         openai_api_key=os.environ.get("OPENAI_API_KEY", "sk-fake-key"),
     )

@@ -1,18 +1,18 @@
 #!/bin/bash
 
-# 🔧 Gemma 모델을 위한 최적화된 vLLM 설정
+# 🔧 Gemma 파인튜닝 모델을 위한 vLLM 설정
 
 # 필요한 환경 변수 설정
 export AWS_ACCESS_KEY_ID=minio
 export AWS_SECRET_ACCESS_KEY=miniostorage
 export TOKENIZERS_PARALLELISM=false
 
-MODEL_NAME="unsloth/gemma-3-4b-it"
+# ✅ 파인튜닝된 체크포인트 디렉토리 (컨테이너 안 경로)
+MODEL_NAME="/models/checkpoint-2352"
 
-echo "🚀 Gemma-3-4B vLLM 서버 시작 중..."
-echo "모델: $MODEL_NAME"
+echo "🚀 Gemma-3-4B (finetuned) vLLM 서버 시작 중..."
+echo "모델 경로: $MODEL_NAME"
 
-# vLLM 실행 - Gemma EOS 토큰 처리 최적화
 python3 -m vllm.entrypoints.openai.api_server \
   --model ${MODEL_NAME} \
   --dtype bfloat16 \
@@ -24,6 +24,7 @@ python3 -m vllm.entrypoints.openai.api_server \
   --disable-log-stats \
   --trust-remote-code \
   --tokenizer ${MODEL_NAME} \
-  --served-model-name "unsloth/gemma-3-4b-it" \
+  --served-model-name "gemma-3-4b-it-finetuned" \
   --gpu-memory-utilization 0.8 \
-  --enforce-eager
+  --enforce-eager \
+  --skip-mm-profiling

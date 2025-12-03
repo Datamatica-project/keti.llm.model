@@ -20,13 +20,13 @@ def html_to_plain_text(html_str: str) -> str:
 
     # 순수 텍스트 추출 + 엔티티 복원
     text = soup.get_text("", strip=False)
-    text = html_lib.unescape(text)           # &#xc758; → 의
+    text = html_lib.unescape(text)
     text = text.replace("\xa0", " ")
 
     # 공백/개행 정리
-    text = re.sub(r"[ \t]+\n", "\n", text)   # 줄 끝 공백
-    text = re.sub(r"\n{3,}", "\n\n", text)   # 3개↑ 개행 → 2개
-    text = re.sub(r"[ \t]{2,}", " ", text)   # 다중 공백 → 단일
+    text = re.sub(r"[ \t]+\n", "\n", text)
+    text = re.sub(r"\n{3,}", "\n\n", text)
+    text = re.sub(r"[ \t]{2,}", " ", text)
     return text.strip()
 
 def main():

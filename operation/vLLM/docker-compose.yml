@@ -11,9 +11,11 @@ services:
       - AWS_SECRET_ACCESS_KEY=miniostorage
       - TOKENIZERS_PARALLELISM=false
       - CUDA_VISIBLE_DEVICES=0
+      - VLLM_SKIP_MM_PROFILING=1
     volumes:
       - ~/.cache/huggingface:/root/.cache/huggingface
       - ./logs:/app/logs
+      - /mnt/c/Users/dm_ohminchan/RAGLLM-Feature-model-train/models/trainer_output/gemma_final:/models/checkpoint-2352
     deploy:
       resources:
         reservations:
@@ -30,6 +32,7 @@ services:
       start_period: 60s
     networks:
       - llm
+    command: ["bash", "/app/start-vllm.sh"]
 
 networks:
   llm:

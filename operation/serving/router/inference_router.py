@@ -15,5 +15,5 @@ async def consult_agriculture(request: QueryRequest):
 
 @router.delete("/chat/memory/{session_id}")
 async def clear_memory(session_id: str):
-    success = delete_session_memory(session_id, "redis://192.168.0.150:6379")
+    success = delete_session_memory(session_id, "redis://192.168.0.15:6379")
     return {"success": success}
